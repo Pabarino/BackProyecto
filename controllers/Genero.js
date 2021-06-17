@@ -3,7 +3,7 @@
 var url = require('url');
 
 
-var Genero = require('./GeneroService');
+var Genero = require('../service/GeneroService');
 
 
 module.exports.createGenre = function createGenre (req, res, next) {

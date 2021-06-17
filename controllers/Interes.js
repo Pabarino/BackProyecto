@@ -3,7 +3,7 @@
 var url = require('url');
 
 
-var Interes = require('./InteresService');
+var Interes = require('../service/InteresService');
 
 
 module.exports.createInterest = function createInterest (req, res, next) {

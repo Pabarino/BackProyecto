@@ -3,7 +3,7 @@
 var url = require('url');
 
 
-var Plataforma = require('./PlataformaService');
+var Plataforma = require('../service/PlataformaService');
 
 
 module.exports.createPlatform = function createPlatform (req, res, next) {

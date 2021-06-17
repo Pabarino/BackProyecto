@@ -3,7 +3,7 @@
 var url = require('url');
 
 
-var Juegosgenero = require('./JuegosgeneroService');
+var Juegosgenero = require('../service/JuegosgeneroService');
 
 
 module.exports.createGame_Genre = function createGame_Genre (req, res, next) {

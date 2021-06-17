@@ -3,7 +3,7 @@
 var url = require('url');
 
 
-var Usuario = require('./UsuarioService');
+var Usuario = require('../service/UsuarioService');
 
 
 module.exports.createUser = function createUser (req, res, next) {

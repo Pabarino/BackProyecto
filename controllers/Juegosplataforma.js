@@ -3,7 +3,7 @@
 var url = require('url');
 
 
-var Juegosplataforma = require('./JuegosplataformaService');
+var Juegosplataforma = require('../service/JuegosplataformaService');
 
 
 module.exports.createGame_PLatform = function createGame_PLatform (req, res, next) {

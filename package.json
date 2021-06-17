@@ -4,9 +4,9 @@
   "description": "API de proyecto final Desarrollo de Aplicaciones Web.",
   "main": "index.js",
   "scripts": {
-	"prestart": "npm install",
-	"start": "node index.js"
-  },  
+    "prestart": "npm install",
+    "start": "node index.js"
+  },
   "keywords": [
     "swagger"
   ],
@@ -14,7 +14,12 @@
   "private": true,
   "dependencies": {
     "connect": "^3.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "js-yaml": "^3.3.0",
-    "swagger-tools": "0.10.1"
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.6.1",
+    "swagger-tools": "^0.10.4"
   }
 }

@@ -1,22 +1,19 @@
 'use strict';
 
-exports.changePassword = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * email (String)
-  * oldPassword (String)
-  * newPassword (String)
-  **/
-  // no response value expected for this operation
-  res.end();
-}
+const jwt = require("jsonwebtoken");
+const _db = require("../libs/database");
+const mailer = require("../libs/mailer");
+const table = "USER";
 
+/**
+ * Logs user into the system
+ *
+ *
+ * email String The user email for login
+ * password String The password for login in clear text
+ * returns User
+ **/
 exports.login = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * email (String)
-  * password (String)
-  **/
     var examples = {};
   examples['application/json'] = {
   "apodo" : "aeiou",
@@ -35,13 +32,17 @@ exports.login = function(args, res, next) {
   
 }
 
-exports.logout = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  **/
-  // no response value expected for this operation
-  res.end();
-}
+/**
+ * Logs out current logged in user session
+ *
+ *
+ * no response value expected for this operation
+ **/
+ exports.logout = function () {
+  return new Promise(function (resolve, reject) {
+    resolve();
+  });
+};
 
 exports.recoverPassword = function(args, res, next) {
   /**
@@ -62,3 +63,13 @@ exports.resetPassword = function(args, res, next) {
   res.end();
 }
 
+exports.changePassword = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * email (String)
+  * oldPassword (String)
+  * newPassword (String)
+  **/
+  // no response value expected for this operation
+  res.end();
+}
