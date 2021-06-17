@@ -1,0 +1,1051 @@
+---
+swagger: "2.0"
+info:
+  description: "API de proyecto final Desarrollo de Aplicaciones Web."
+  version: "1.0.0"
+  title: "Next Up Games API"
+host: "next-up-games-db.cplzfkknujtl.eu-west-3.rds.amazonaws.com"
+basePath: "/api"
+tags:
+- name: "usuario"
+  description: "Operaciones sobre usuario"
+- name: "juego"
+  description: "Operaciones sobre juegos"
+- name: "plataforma"
+  description: "Operaciones sobre plataformas"
+- name: "genero"
+  description: "Operaciones sobre generos"
+- name: "interes"
+  description: "Operaciones sobre juegos de interes, tabla de union (Juegos y Usuario)"
+- name: "juegos_genero"
+  description: "Operaciones sobre tabla de union (Juegos y Generos)"
+- name: "juegos_plataforma"
+  description: "Operaciones sobre tabla de union (Juegos y Plataformas)"
+- name: "auth"
+  description: "Operaciones sobre autentificación "
+schemes:
+- "http"
+paths:
+  /auth/changePassword:
+    put:
+      tags:
+      - "auth"
+      summary: "Recibir contraseña de usuario"
+      description: ""
+      operationId: "changePassword"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "email"
+        in: "header"
+        description: "Email del usuario."
+        required: true
+        type: "string"
+        format: "email"
+      - name: "oldPassword"
+        in: "header"
+        description: "La contraseña vieja del usuario."
+        required: true
+        type: "string"
+      - name: "newPassword"
+        in: "header"
+        description: "La contraseña nueva del usuario."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid email supplied"
+        404:
+          description: "User or employee not found"
+      x-swagger-router-controller: "Auth"
+  /auth/login:
+    get:
+      tags:
+      - "auth"
+      summary: "Logs user into the system"
+      description: ""
+      operationId: "login"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "email"
+        in: "header"
+        description: "El email del usuario para el login"
+        required: true
+        type: "string"
+        format: "email"
+      - name: "password"
+        in: "header"
+        description: "La contraseña para el login"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Usuario"
+        400:
+          description: "Invalid username/password supplied"
+      x-swagger-router-controller: "Auth"
+  /auth/logout:
+    get:
+      tags:
+      - "auth"
+      summary: "Hace log out a la sesion"
+      description: ""
+      operationId: "logout"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: []
+      responses:
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "Auth"
+  /auth/recoverPassword:
+    get:
+      tags:
+      - "auth"
+      summary: "Recibir contraseña del usuario"
+      description: ""
+      operationId: "recoverPassword"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "email"
+        in: "header"
+        description: "El correo del usuario."
+        required: true
+        type: "string"
+        format: "email"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid email supplied"
+        404:
+          description: "User or employee not found"
+      x-swagger-router-controller: "Auth"
+  /auth/resetPassword/{token}:
+    put:
+      tags:
+      - "auth"
+      summary: "Recibir la contraseña del usuario"
+      description: ""
+      operationId: "resetPassword"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "token"
+        in: "path"
+        description: "Json Web Token"
+        required: true
+        type: "string"
+      - name: "newPassword"
+        in: "header"
+        description: "La contraseña nueva."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid email supplied"
+        404:
+          description: "User or employee not found"
+      x-swagger-router-controller: "Auth"
+  /genero/create:
+    post:
+      tags:
+      - "genero"
+      summary: "Crear genero"
+      description: ""
+      operationId: "createGenre"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objecto genero creado"
+        required: true
+        schema:
+          $ref: "#/definitions/Genero"
+      responses:
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "Genero"
+  /genero/delete:
+    delete:
+      tags:
+      - "genero"
+      summary: "Borrar genero"
+      description: ""
+      operationId: "deleteGenre"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idGenero"
+        in: "header"
+        description: "El id del genero que tiene que ser eliminado"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Invalid genre id supplied"
+        404:
+          description: "Genre not found"
+      x-swagger-router-controller: "Genero"
+  /genero/getAll:
+    get:
+      tags:
+      - "genero"
+      summary: "Recibir todos los generos"
+      description: ""
+      operationId: "getAllGenres"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Genero"
+        404:
+          description: "Genre not found"
+      x-swagger-router-controller: "Genero"
+  /genero/update:
+    put:
+      tags:
+      - "genero"
+      summary: "Actualizar genero"
+      description: ""
+      operationId: "updateGenre"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idGenero"
+        in: "header"
+        description: "id del genero que tiene que ser actualizado"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Objeto genero actualizado"
+        required: true
+        schema:
+          $ref: "#/definitions/Genero"
+      responses:
+        400:
+          description: "Invalid genre id supplied"
+        404:
+          description: "Genre not found"
+      x-swagger-router-controller: "Genero"
+  /interes/create:
+    post:
+      tags:
+      - "interes"
+      summary: "Crear interes"
+      description: ""
+      operationId: "createInterest"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objecto interes creado"
+        required: true
+        schema:
+          $ref: "#/definitions/Interes"
+      responses:
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "Interes"
+  /interes/delete:
+    delete:
+      tags:
+      - "interes"
+      summary: "Borrar interes"
+      description: ""
+      operationId: "deleteInterest"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idUsuario"
+        in: "header"
+        description: "El id del usuario del interes que tiene que ser eliminado"
+        required: true
+        type: "integer"
+      - name: "idJuego"
+        in: "header"
+        description: "El id del juego del interes que tiene que ser eliminado"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Invalid interest id supplied"
+        404:
+          description: "Interest not found"
+      x-swagger-router-controller: "Interes"
+  /interes/getAll:
+    get:
+      tags:
+      - "interes"
+      summary: "Recibir todos los intereses"
+      description: ""
+      operationId: "getAllInterests"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Interes"
+        404:
+          description: "Interest not found"
+      x-swagger-router-controller: "Interes"
+  /interes/getAllById:
+    get:
+      tags:
+      - "interes"
+      summary: "Recibir todos los intereses de un usuario por id"
+      description: ""
+      operationId: "getAllInterestById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idUsuario"
+        in: "header"
+        description: "El id del usuario del que queremos recoger intereses."
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Interes"
+        400:
+          description: "Invalid interest id supplied"
+        404:
+          description: "Interest not found"
+      x-swagger-router-controller: "Interes"
+  /interes/update:
+    put:
+      tags:
+      - "interes"
+      summary: "Actualizar interes"
+      description: ""
+      operationId: "updateInterest"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idUsuario"
+        in: "header"
+        description: "id del usuario del interes que tiene que ser actualizado"
+        required: true
+        type: "integer"
+      - name: "idJuego"
+        in: "header"
+        description: "id del juego del interes que tiene que ser actualizado"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Objeto interes actualizado"
+        required: true
+        schema:
+          $ref: "#/definitions/Interes"
+      responses:
+        400:
+          description: "Invalid interest id supplied"
+        404:
+          description: "Interest not found"
+      x-swagger-router-controller: "Interes"
+  /juego/create:
+    post:
+      tags:
+      - "juego"
+      summary: "Create employee"
+      description: ""
+      operationId: "createGame"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objeto juego creado"
+        required: true
+        schema:
+          $ref: "#/definitions/Juego"
+      responses:
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "Juego"
+  /juego/delete:
+    delete:
+      tags:
+      - "juego"
+      summary: "Borrar juego"
+      description: ""
+      operationId: "deleteGame"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idJuego"
+        in: "header"
+        description: "Id del usuario que tiene que ser eliminado"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Invalid game id supplied"
+        404:
+          description: "Game not found"
+      x-swagger-router-controller: "Juego"
+  /juego/getAll:
+    get:
+      tags:
+      - "juego"
+      summary: "Recibir todos los juegos"
+      description: ""
+      operationId: "getAllGames"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Juego"
+        404:
+          description: "Game not found"
+      x-swagger-router-controller: "Juego"
+  /juego/getOneById:
+    get:
+      tags:
+      - "juego"
+      summary: "Recibir juego por id"
+      description: ""
+      operationId: "getGameById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idJuego"
+        in: "header"
+        description: "El id del juego que se quiere recibir."
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Juego"
+        400:
+          description: "Invalid game id supplied"
+        404:
+          description: "Game not found"
+      x-swagger-router-controller: "Juego"
+  /juego/update:
+    put:
+      tags:
+      - "juego"
+      summary: "Actualizar juego"
+      description: ""
+      operationId: "updateGame"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idJuego"
+        in: "header"
+        description: "id del juego que tiene que ser actualizado"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Objeto juego actualizado"
+        required: true
+        schema:
+          $ref: "#/definitions/Juego"
+      responses:
+        400:
+          description: "Invalid game id supplied"
+        404:
+          description: "Game not found"
+      x-swagger-router-controller: "Juego"
+  /juegos_genero/create:
+    post:
+      tags:
+      - "juegos_genero"
+      summary: "Crear juegos_genero"
+      description: ""
+      operationId: "createGame_Genre"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objecto juegos_genero creado"
+        required: true
+        schema:
+          $ref: "#/definitions/Juegos_genero"
+      responses:
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "Juegos_genero"
+  /juegos_genero/delete:
+    delete:
+      tags:
+      - "juegos_genero"
+      summary: "Borrar juegos_genero"
+      description: ""
+      operationId: "deleteGame_Genre"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idJuego"
+        in: "header"
+        description: "id del juego del juegos_genero que tiene que ser eliminado"
+        required: true
+        type: "integer"
+      - name: "idGenero"
+        in: "header"
+        description: "id del genero del juegos_genero que tiene que ser eliminado"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Invalid game_genre id supplied"
+        404:
+          description: "Game_genre not found"
+      x-swagger-router-controller: "Juegos_genero"
+  /juegos_genero/getAll:
+    get:
+      tags:
+      - "juegos_genero"
+      summary: "Recibir todos los valores de juegos_generos"
+      description: ""
+      operationId: "getAllGame_Genres"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Juegos_genero"
+        404:
+          description: "Game_Genre not found"
+      x-swagger-router-controller: "Juegos_genero"
+  /juegos_genero/getAllGameById:
+    get:
+      tags:
+      - "juegos_genero"
+      summary: "Recibir todos los juegos de un genero por id"
+      description: ""
+      operationId: "getAllGameByGenreId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idGenero"
+        in: "header"
+        description: "El id del genero del que se quiere recibir juegos."
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Juegos_genero"
+        400:
+          description: "Invalid Game_Genre id supplied"
+        404:
+          description: "Game_Genre not found"
+      x-swagger-router-controller: "juegos_genero"
+  /juegos_genero/getAllGenreById:
+    get:
+      tags:
+      - "juegos_genero"
+      summary: "Recibir todos los generos de un juego por id"
+      description: ""
+      operationId: "getAllGenreByGameId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idJuego"
+        in: "header"
+        description: "El id del juego del que se quiere recibir sus generos."
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Juegos_genero"
+        400:
+          description: "Invalid Game_Genre id supplied"
+        404:
+          description: "Game_Genre not found"
+      x-swagger-router-controller: "Juegos_genero"
+  /juegos_genero/update:
+    put:
+      tags:
+      - "juegos_genero"
+      summary: "Actualizar juegos_genero"
+      description: ""
+      operationId: "updateGame_Genre"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idJuego"
+        in: "header"
+        description: "id del juego del juegos_genero que tiene que ser actualizado"
+        required: true
+        type: "integer"
+      - name: "idGenero"
+        in: "header"
+        description: "id del genero del juegos_genero que tiene que ser actualizado"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Objeto interes actualizado"
+        required: true
+        schema:
+          $ref: "#/definitions/Juegos_genero"
+      responses:
+        400:
+          description: "Invalid game_genre id supplied"
+        404:
+          description: "Game_platform not found"
+      x-swagger-router-controller: "Juegos_genero"
+  /juegos_plataforma/create:
+    post:
+      tags:
+      - "juegos_plataforma"
+      summary: "Crear juegos_plataforma"
+      description: ""
+      operationId: "createGame_PLatform"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objecto juegos_plataforma creado"
+        required: true
+        schema:
+          $ref: "#/definitions/Juegos_plataforma"
+      responses:
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "Juegos_plataforma"
+  /juegos_plataforma/delete:
+    delete:
+      tags:
+      - "juegos_plataforma"
+      summary: "Borrar juegos_plataforma"
+      description: ""
+      operationId: "deleteGame_platform"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idJuego"
+        in: "header"
+        description: "id del juego del juegos_plataforma que tiene que ser eliminado"
+        required: true
+        type: "integer"
+      - name: "idPlataforma"
+        in: "header"
+        description: "id del genero del juegos_plataforma que tiene que ser eliminado"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Invalid game_platform id supplied"
+        404:
+          description: "Game_platform not found"
+      x-swagger-router-controller: "Juegos_plataforma"
+  /juegos_plataforma/getAll:
+    get:
+      tags:
+      - "juegos_plataforma"
+      summary: "Recibir todos los valores de juegos_plataforma"
+      description: ""
+      operationId: "getAllGame_Platforms"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Juegos_plataforma"
+        404:
+          description: "Game_PLatform not found"
+      x-swagger-router-controller: "Juegos_plataforma"
+  /juegos_plataforma/getAllGameById:
+    get:
+      tags:
+      - "juegos_plataforma"
+      summary: "Recibir todos los juegos de una plataforma por id"
+      description: ""
+      operationId: "getAllGameByPlatformId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idPlataforma"
+        in: "header"
+        description: "El id de la plataforma del que se quiere recibir juegos."
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Juegos_plataforma"
+        400:
+          description: "Invalid game_platform id supplied"
+        404:
+          description: "Game_platform not found"
+      x-swagger-router-controller: "Juegos_plataforma"
+  /juegos_plataforma/getAllGenreById:
+    get:
+      tags:
+      - "juegos_plataforma"
+      summary: "Recibir todas las plataformas de un juego por id"
+      description: ""
+      operationId: "getAllPlatformByGameId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idJuego"
+        in: "header"
+        description: "El id del juego del que se quiere recibir sus plataformas."
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Juegos_plataforma"
+        400:
+          description: "Invalid Game_platform id supplied"
+        404:
+          description: "Game_platform not found"
+      x-swagger-router-controller: "Juegos_plataforma"
+  /juegos_plataforma/update:
+    put:
+      tags:
+      - "juegos_plataforma"
+      summary: "Actualizar juegos_plataforma"
+      description: ""
+      operationId: "updateGame_Platform"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idJuego"
+        in: "header"
+        description: "id del juego del juegos_plataforma que tiene que ser actualizado"
+        required: true
+        type: "integer"
+      - name: "idPlataforma"
+        in: "header"
+        description: "id de la plataforma del juegos_plataforma que tiene que ser\
+          \ actualizado"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Objeto juegos_plataforma actualizado"
+        required: true
+        schema:
+          $ref: "#/definitions/Juegos_plataforma"
+      responses:
+        400:
+          description: "Invalid game_platform id supplied"
+        404:
+          description: "Game_platform not found"
+      x-swagger-router-controller: "Juegos_plataforma"
+  /plataforma/create:
+    post:
+      tags:
+      - "plataforma"
+      summary: "Crear plataforma"
+      description: ""
+      operationId: "createPlatform"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objecto plataforma creado"
+        required: true
+        schema:
+          $ref: "#/definitions/Plataforma"
+      responses:
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "Plataforma"
+  /plataforma/delete:
+    delete:
+      tags:
+      - "plataforma"
+      summary: "Borrar plataforma"
+      description: ""
+      operationId: "deletePlatform"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idPlataforma"
+        in: "header"
+        description: "El id de la plataforma que tiene que ser eliminada"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Invalid platform id supplied"
+        404:
+          description: "Platform not found"
+      x-swagger-router-controller: "Plataforma"
+  /plataforma/getAll:
+    get:
+      tags:
+      - "plataforma"
+      summary: "Recibir todas las plataformas"
+      description: ""
+      operationId: "getAllPlatforms"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Plataforma"
+        404:
+          description: "Platform not found"
+      x-swagger-router-controller: "Plataforma"
+  /plataforma/update:
+    put:
+      tags:
+      - "plataforma"
+      summary: "Actualizar usuario"
+      description: ""
+      operationId: "updatePlatform"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idPlataforma"
+        in: "header"
+        description: "id de la plataforma que tiene que ser actualizada"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Objeto plataforma actualizado"
+        required: true
+        schema:
+          $ref: "#/definitions/Plataforma"
+      responses:
+        400:
+          description: "Invalid platform id supplied"
+        404:
+          description: "Platform not found"
+      x-swagger-router-controller: "Plataforma"
+  /usuario/create:
+    post:
+      tags:
+      - "usuario"
+      summary: "Crear usuario"
+      description: ""
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objecto usuario creado"
+        required: true
+        schema:
+          $ref: "#/definitions/Usuario"
+      responses:
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "Usuario"
+  /usuario/delete:
+    delete:
+      tags:
+      - "usuario"
+      summary: "Borrar usuario"
+      description: ""
+      operationId: "deleteUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idUsuario"
+        in: "header"
+        description: "El id del usuario que tiene que ser eliminado"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Invalid user id supplied"
+        404:
+          description: "User not found"
+      x-swagger-router-controller: "Usuario"
+  /usuario/getAll:
+    get:
+      tags:
+      - "usuario"
+      summary: "Recibir todos los usuarios"
+      description: ""
+      operationId: "getAllUsers"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Usuario"
+        404:
+          description: "User not found"
+      x-swagger-router-controller: "Usuario"
+  /usuario/getOneById:
+    get:
+      tags:
+      - "usuario"
+      summary: "Recibir un usuario por id"
+      description: ""
+      operationId: "getUserById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idUsuario"
+        in: "header"
+        description: "El id del usuario que tiene que ser recogido."
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Usuario"
+        400:
+          description: "Invalid user id supplied"
+        404:
+          description: "User not found"
+      x-swagger-router-controller: "Usuario"
+  /usuario/update:
+    put:
+      tags:
+      - "usuario"
+      summary: "Actualizar usuario"
+      description: ""
+      operationId: "updateUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idUsuario"
+        in: "header"
+        description: "id del usuario que tiene que ser actualizado"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Objeto usuario actualizado"
+        required: true
+        schema:
+          $ref: "#/definitions/Usuario"
+      responses:
+        400:
+          description: "Invalid user id supplied"
+        404:
+          description: "User not found"
+      x-swagger-router-controller: "Usuario"
+definitions:
+  Usuario:
+    type: "object"
+    properties:
+      idUsuario:
+        type: "integer"
+        format: "int64"
+      apodo:
+        type: "string"
+      email:
+        type: "string"
+        format: "email"
+      password:
+        type: "string"
+      imagen:
+        type: "string"
+  Juego:
+    type: "object"
+    properties:
+      idJuego:
+        type: "integer"
+        format: "int64"
+      nombre:
+        type: "string"
+      imagen:
+        type: "string"
+      fechaSalida:
+        type: "string"
+        format: "full-date"
+      sinopsis:
+        type: "string"
+      desarrolladora:
+        type: "string"
+      distribuidora:
+        type: "string"
+      video:
+        type: "string"
+      enlaceCompra:
+        type: "string"
+  Plataforma:
+    type: "object"
+    properties:
+      idPlataforma:
+        type: "string"
+  Genero:
+    type: "object"
+    properties:
+      idGenero:
+        type: "string"
+  Interes:
+    type: "object"
+    properties:
+      idJuego:
+        $ref: "#/definitions/Juego/properties/idJuego"
+      idUsuario:
+        $ref: "#/definitions/Usuario/properties/idUsuario"
+  Juegos_genero:
+    type: "object"
+    properties:
+      idJuego:
+        $ref: "#/definitions/Juego/properties/idJuego"
+      idGenero:
+        $ref: "#/definitions/Genero/properties/idGenero"
+  Juegos_plataforma:
+    type: "object"
+    properties:
+      idJuego:
+        $ref: "#/definitions/Juego/properties/idJuego"
+      idPlataforma:
+        $ref: "#/definitions/Plataforma/properties/idPlataforma"
