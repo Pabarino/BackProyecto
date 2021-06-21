@@ -4,31 +4,23 @@ class Database {
   constructor() {
 
     const mysql = require('mysql');
-    this.host = "next-up-games-db.cplzfkknujtl.eu-west-3.rds.amazonaws.com";
-    this.user = "admin";
-    this.password = "admin123";
+
+    var connection = mysql.createConnection({
+      host: "next-up-games-db.cplzfkknujtl.eu-west-3.rds.amazonaws.com",
+      user: "admin",
+      password: "admin123",
+      port: "3306"
+    });
     
-    this.connStr =
-      "host:" +
-      this.host +
-      ";user: " +
-      this.user +
-      ";password: " +
-      this.password +
-      ";";
-
-    if (Database.instance) {
-      return Database.instance;
-    }
-
-    Database.instance = this;
-    return this;
-
-    // con.connect(function(err) {
-    //     if (err) throw err;
-    //     console.log("Connected!");
-    //     con.end();
-    // });
+    connection.connect(function(err) {
+      if (err) {
+        console.error('Database connection failed: ' + err.stack);
+        return;
+      }
+      console.log('Connected to database');
+    });
+    connection.end();
+    
   }
 
   /**

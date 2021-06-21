@@ -635,7 +635,7 @@ paths:
       - "juegos_plataforma"
       summary: "Crear juegos_plataforma"
       description: ""
-      operationId: "createGame_PLatform"
+      operationId: "createGame_Platform"
       produces:
       - "application/json"
       parameters:
@@ -655,7 +655,7 @@ paths:
       - "juegos_plataforma"
       summary: "Borrar juegos_plataforma"
       description: ""
-      operationId: "deleteGame_platform"
+      operationId: "deleteGame_Platform"
       produces:
       - "application/json"
       parameters:
