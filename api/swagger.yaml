@@ -24,7 +24,7 @@ tags:
 - name: "auth"
   description: "Operaciones sobre autentificación "
 schemes:
-- "http"
+- "https"
 paths:
   /auth/changePassword:
     put:
