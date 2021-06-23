@@ -4,7 +4,7 @@ info:
   description: "API de proyecto final Desarrollo de Aplicaciones Web."
   version: "1.0.0"
   title: "Next Up Games API"
-host: "next-up-games-back.herokuapp.com/"
+host: "next-up-games-back.herokuapp.com"
 basePath: "/api"
 tags:
 - name: "usuario"
@@ -24,7 +24,7 @@ tags:
 - name: "auth"
   description: "Operaciones sobre autentificación "
 schemes:
-- "https"
+- "http"
 paths:
   /auth/changePassword:
     put:
