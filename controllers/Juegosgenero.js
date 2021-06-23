@@ -52,7 +52,7 @@ module.exports.getAllGame_Genres = function getAllGame_Genres (req, res, next) {
 
 module.exports.getAllGenreByGameId = function getAllGenreByGameId (req, res, next) {
   var id = req.swagger.params['idJuego'].value;
-  Juegosgenero.getAllGameByGenreId(id)
+  Juegosgenero.getAllGenreByGameId(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

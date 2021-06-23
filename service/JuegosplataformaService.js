@@ -12,17 +12,12 @@ let table = 'Juegos_plataformas';
  **/
  exports.createGame_Platform = function(body) {
   return new Promise(function(resolve, reject) {
-    
-    let games_platforms = new Games_platforms();
-    games_platforms.idJuego = body.idJuego;
-    games_platforms.idPlataforma = body.idPlataforma;
-
     //validaciones
 
 
     //let _db = new DBConexion();
     let sql = `INSERT INTO ${table} (idJuego, idPlataforma) 
-      VALUES(${games_platforms.idJuego}, '${games_platforms.idPlataforma}');`;
+      VALUES(${body.idJuego}, '${body.idPlataforma}');`;
     
     _db.query(sql).then(
       data => {
@@ -47,7 +42,7 @@ let table = 'Juegos_plataformas';
  exports.deleteGame_Platform = function(idJuego, idPlataforma) {
   return new Promise(function(resolve, reject) {
 
-    let sql = `DELETE FROM ${table} WHERE idPlataforma=${idPlataforma} AND idJuego=${idJuego};`;
+    let sql = `DELETE FROM ${table} WHERE idPlataforma='${idPlataforma}' AND idJuego=${idJuego};`;
 
     _db.query(sql).then(
       data => {
@@ -71,7 +66,7 @@ let table = 'Juegos_plataformas';
  exports.getAllGameByPlatformId = function(id) {
   return new Promise(function(resolve, reject) {
 
-    let sql = `SELECT idJuego FROM ${table} WHERE idPlataforma=${id};`;
+    let sql = `SELECT idJuego FROM ${table} WHERE idPlataforma='${id}';`;
 
     _db.query(sql).then(
       datas => {
@@ -95,7 +90,7 @@ let table = 'Juegos_plataformas';
   return new Promise(function(resolve, reject) {
 
     //let users = [];
-    let sql = `SELECT * FROM ${table};`;
+    let sql = `SELECT * FROM ${table} ORDER BY idJuego;`;
 
     _db.query(sql).then(
       datas => {
@@ -119,7 +114,7 @@ let table = 'Juegos_plataformas';
  exports.getAllPlatformByGameId = function(id) {
   return new Promise(function(resolve, reject) {
 
-    let sql = `SELECT idPlatforma FROM ${table} WHERE idJuego=${id};`;
+    let sql = `SELECT idPlataforma FROM ${table} WHERE idJuego=${id};`;
 
     _db.query(sql).then(
       datas => {
@@ -144,18 +139,11 @@ let table = 'Juegos_plataformas';
  **/
  exports.updateGame_Platform = function(idJuego, idPlatform,body) {
   return new Promise(function(resolve, reject) {
-    
-    let games_platforms = new Games_platforms();
-    games_platforms.idJuego = idJuego;
-    games_platforms.newIdJuego = body.idJuego;
-    games_platforms.idPlatform = idPlatform;
-    games_platforms.newidPlatform = body.idPlatform;
-
     //validaciones
 
     let sql = `UPDATE ${table} 
-      SET idPlatform=${games_platforms.newidPlatform}, idJuego='${games_platforms.newIdJuego}'
-      WHERE idPlatform=${games_platforms.idPlatform} AND idJuego=${games_platforms.idJuego} ;`;
+      SET idPlataforma='${body.idPlataforma}', idJuego=${body.idJuego}
+      WHERE idPlataforma='${idPlatform}' AND idJuego=${idJuego} ;`;
     
     _db.query(sql).then(
       data => {        

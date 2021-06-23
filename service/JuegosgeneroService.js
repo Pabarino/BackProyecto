@@ -12,17 +12,12 @@ let table = 'Juegos_generos';
  **/
  exports.createGame_Genre = function(body) {
   return new Promise(function(resolve, reject) {
-    
-    let games_genres = new Games_genres();
-    games_genres.idJuego = body.idJuego;
-    games_genres.idGenero = body.idGenero;
-
     //validaciones
 
 
     //let _db = new DBConexion();
     let sql = `INSERT INTO ${table} (idJuego, idGenero) 
-      VALUES(${games_genres.idJuego}, '${games_genres.idGenero}');`;
+      VALUES(${body.idJuego}, '${body.idGenero}');`;
     
     _db.query(sql).then(
       data => {
@@ -47,7 +42,7 @@ let table = 'Juegos_generos';
  exports.deleteGame_Genre = function(idJuego, idGenero) {
   return new Promise(function(resolve, reject) {
 
-    let sql = `DELETE FROM ${table} WHERE idGenero=${idGenero} AND idJuego=${idJuego};`;
+    let sql = `DELETE FROM ${table} WHERE idGenero='${idGenero}' AND idJuego=${idJuego};`;
 
     _db.query(sql).then(
       data => {
@@ -71,7 +66,7 @@ let table = 'Juegos_generos';
  exports.getAllGameByGenreId = function(id) {
   return new Promise(function(resolve, reject) {
 
-    let sql = `SELECT idJuego FROM ${table} WHERE idGenero=${id};`;
+    let sql = `SELECT idJuego FROM ${table} WHERE idGenero='${id}';`;
 
     _db.query(sql).then(
       datas => {
@@ -122,8 +117,8 @@ let table = 'Juegos_generos';
     let sql = `SELECT idGenero FROM ${table} WHERE idJuego=${id};`;
 
     _db.query(sql).then(
-      datas => {
-        resolve(datas);
+      data => {
+        resolve(data);
       },
       error => {
         resolve({message: 'Error al obtener generos del juego', status: 404});
@@ -144,18 +139,11 @@ let table = 'Juegos_generos';
  **/
  exports.updateGame_Genre = function(idJuego, idGenero,body) {
   return new Promise(function(resolve, reject) {
-    
-    let game_genre = new Game_genres();
-    interest.idJuego = idJuego;
-    interest.newIdJuego = body.idJuego;
-    interest.idGenero = idGenero;
-    interest.newidGenero = body.idGenero;
-
     //validaciones
 
     let sql = `UPDATE ${table} 
-      SET idGenero=${interest.newidGenero}, idJuego='${interest.newIdJuego}'
-      WHERE idGenero=${interest.idGenero} AND idJuego=${interest.idJuego} ;`;
+      SET idGenero='${body.idGenero}', idJuego=${body.idJuego}
+      WHERE idGenero='${idGenero}' AND idJuego=${idJuego} ;`;
     
     _db.query(sql).then(
       data => {        

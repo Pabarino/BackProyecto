@@ -49,16 +49,3 @@ module.exports.getAllInterests = function getAllInterests (req, res, next) {
       utils.writeJson(res, response);
     });
 };
-
-module.exports.updateInterest = function updateInterest (req, res, next) {
-  var idUsuario = req.swagger.params['idUsuario'].value;
-  var idJuego = req.swagger.params['idJuego'].value;
-  var body = req.swagger.params['body'].value;
-  Interes.updateInterest(idUsuario, idJuego, body)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};

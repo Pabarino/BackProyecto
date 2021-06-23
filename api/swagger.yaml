@@ -191,7 +191,7 @@ paths:
         in: "header"
         description: "El id del genero que tiene que ser eliminado"
         required: true
-        type: "integer"
+        type: "string"
       responses:
         400:
           description: "Invalid genre id supplied"
@@ -232,7 +232,7 @@ paths:
         in: "header"
         description: "id del genero que tiene que ser actualizado"
         required: true
-        type: "integer"
+        type: "string"
       - in: "body"
         name: "body"
         description: "Objeto genero actualizado"
@@ -312,31 +312,6 @@ paths:
           description: "Interest not found"
       x-swagger-router-controller: "Interes"
   /interes/getAllById:
-    get:
-      tags:
-      - "interes"
-      summary: "Recibir todos los intereses de un usuario por id"
-      description: ""
-      operationId: "getAllInterestById"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "idUsuario"
-        in: "header"
-        description: "El id del usuario del que queremos recoger intereses."
-        required: true
-        type: "integer"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Interes"
-        400:
-          description: "Invalid interest id supplied"
-        404:
-          description: "Interest not found"
-      x-swagger-router-controller: "Interes"
-  /interes/update:
     put:
       tags:
       - "interes"
@@ -500,7 +475,7 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-swagger-router-controller: "Juegos_genero"
+      x-swagger-router-controller: "Juegosgenero"
   /juegos_genero/delete:
     delete:
       tags:
@@ -520,13 +495,13 @@ paths:
         in: "header"
         description: "id del genero del juegos_genero que tiene que ser eliminado"
         required: true
-        type: "integer"
+        type: "string"
       responses:
         400:
           description: "Invalid game_genre id supplied"
         404:
           description: "Game_genre not found"
-      x-swagger-router-controller: "Juegos_genero"
+      x-swagger-router-controller: "Juegosgenero"
   /juegos_genero/getAll:
     get:
       tags:
@@ -546,8 +521,8 @@ paths:
               $ref: "#/definitions/Juegos_genero"
         404:
           description: "Game_Genre not found"
-      x-swagger-router-controller: "Juegos_genero"
-  /juegos_genero/getAllGameById:
+      x-swagger-router-controller: "Juegosgenero"
+  /juegos_genero/getAllGameByGenreId:
     get:
       tags:
       - "juegos_genero"
@@ -561,7 +536,7 @@ paths:
         in: "header"
         description: "El id del genero del que se quiere recibir juegos."
         required: true
-        type: "integer"
+        type: "string"
       responses:
         200:
           description: "successful operation"
@@ -571,8 +546,8 @@ paths:
           description: "Invalid Game_Genre id supplied"
         404:
           description: "Game_Genre not found"
-      x-swagger-router-controller: "juegos_genero"
-  /juegos_genero/getAllGenreById:
+      x-swagger-router-controller: "Juegosgenero"
+  /juegos_genero/getAllGenreByGameId:
     get:
       tags:
       - "juegos_genero"
@@ -596,7 +571,7 @@ paths:
           description: "Invalid Game_Genre id supplied"
         404:
           description: "Game_Genre not found"
-      x-swagger-router-controller: "Juegos_genero"
+      x-swagger-router-controller: "Juegosgenero"
   /juegos_genero/update:
     put:
       tags:
@@ -616,7 +591,7 @@ paths:
         in: "header"
         description: "id del genero del juegos_genero que tiene que ser actualizado"
         required: true
-        type: "integer"
+        type: "string"
       - in: "body"
         name: "body"
         description: "Objeto interes actualizado"
@@ -628,7 +603,7 @@ paths:
           description: "Invalid game_genre id supplied"
         404:
           description: "Game_platform not found"
-      x-swagger-router-controller: "Juegos_genero"
+      x-swagger-router-controller: "Juegosgenero"
   /juegos_plataforma/create:
     post:
       tags:
@@ -648,7 +623,7 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-swagger-router-controller: "Juegos_plataforma"
+      x-swagger-router-controller: "Juegosplataforma"
   /juegos_plataforma/delete:
     delete:
       tags:
@@ -668,13 +643,13 @@ paths:
         in: "header"
         description: "id del genero del juegos_plataforma que tiene que ser eliminado"
         required: true
-        type: "integer"
+        type: "string"
       responses:
         400:
           description: "Invalid game_platform id supplied"
         404:
           description: "Game_platform not found"
-      x-swagger-router-controller: "Juegos_plataforma"
+      x-swagger-router-controller: "Juegosplataforma"
   /juegos_plataforma/getAll:
     get:
       tags:
@@ -694,8 +669,8 @@ paths:
               $ref: "#/definitions/Juegos_plataforma"
         404:
           description: "Game_PLatform not found"
-      x-swagger-router-controller: "Juegos_plataforma"
-  /juegos_plataforma/getAllGameById:
+      x-swagger-router-controller: "Juegosplataforma"
+  /juegos_plataforma/getAllGameByPlatformId:
     get:
       tags:
       - "juegos_plataforma"
@@ -709,7 +684,7 @@ paths:
         in: "header"
         description: "El id de la plataforma del que se quiere recibir juegos."
         required: true
-        type: "integer"
+        type: "string"
       responses:
         200:
           description: "successful operation"
@@ -719,8 +694,8 @@ paths:
           description: "Invalid game_platform id supplied"
         404:
           description: "Game_platform not found"
-      x-swagger-router-controller: "Juegos_plataforma"
-  /juegos_plataforma/getAllGenreById:
+      x-swagger-router-controller: "Juegosplataforma"
+  /juegos_plataforma/getAllPlatformByGameId:
     get:
       tags:
       - "juegos_plataforma"
@@ -744,7 +719,7 @@ paths:
           description: "Invalid Game_platform id supplied"
         404:
           description: "Game_platform not found"
-      x-swagger-router-controller: "Juegos_plataforma"
+      x-swagger-router-controller: "Juegosplataforma"
   /juegos_plataforma/update:
     put:
       tags:
@@ -765,7 +740,7 @@ paths:
         description: "id de la plataforma del juegos_plataforma que tiene que ser\
           \ actualizado"
         required: true
-        type: "integer"
+        type: "string"
       - in: "body"
         name: "body"
         description: "Objeto juegos_plataforma actualizado"
@@ -777,7 +752,7 @@ paths:
           description: "Invalid game_platform id supplied"
         404:
           description: "Game_platform not found"
-      x-swagger-router-controller: "Juegos_plataforma"
+      x-swagger-router-controller: "Juegosplataforma"
   /plataforma/create:
     post:
       tags:
@@ -812,7 +787,7 @@ paths:
         in: "header"
         description: "El id de la plataforma que tiene que ser eliminada"
         required: true
-        type: "integer"
+        type: "string"
       responses:
         400:
           description: "Invalid platform id supplied"
@@ -853,7 +828,7 @@ paths:
         in: "header"
         description: "id de la plataforma que tiene que ser actualizada"
         required: true
-        type: "integer"
+        type: "string"
       - in: "body"
         name: "body"
         description: "Objeto plataforma actualizado"
@@ -995,6 +970,11 @@ definitions:
         type: "string"
       imagen:
         type: "string"
+    example:
+      apodo: "string"
+      email: "user@example.com"
+      password: "string"
+      imagen: "string"
   Juego:
     type: "object"
     properties:
@@ -1018,6 +998,15 @@ definitions:
         type: "string"
       enlaceCompra:
         type: "string"
+    example:
+      nombre: "elemplo"
+      imagen: "elemplo.jpg"
+      fechaSalida: "2012-09-11"
+      sinopsis: "sinopsis ejemplo"
+      desarrolladora: "elemplo"
+      distribuidora: "elemplo"
+      video: "ejemplo.mp4"
+      enlaceCompra: "ejemploLink"
   Plataforma:
     type: "object"
     properties:

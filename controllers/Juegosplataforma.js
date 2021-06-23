@@ -19,8 +19,8 @@ module.exports.createGame_Platform = function createGame_Platform (req, res, nex
 
 module.exports.deleteGame_Platform = function deleteGame_Platform (req, res, next) {
   var idJuego = req.swagger.params['idJuego'].value;
-  var idGenero = req.swagger.params['idPlataforma'].value;
-  Juegosplataforma.deleteGame_Platform(idJuego, idGenero)
+  var idPlataforma = req.swagger.params['idPlataforma'].value;
+  Juegosplataforma.deleteGame_Platform(idJuego, idPlataforma)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -31,7 +31,7 @@ module.exports.deleteGame_Platform = function deleteGame_Platform (req, res, nex
 
 module.exports.getAllGameByPlatformId = function getAllGameByPlatformId (req, res, next) {
   var id = req.swagger.params['idPlataforma'].value;
-  Juegosplataforma.getAllGameByGenreId(id)
+  Juegosplataforma.getAllGameByPlatformId(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

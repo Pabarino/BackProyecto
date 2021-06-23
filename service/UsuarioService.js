@@ -12,19 +12,12 @@ let table = 'Usuarios';
  **/
  exports.createUser = function(body) {
   return new Promise(function(resolve, reject) {
-    
-    let user = new Usuario();
-    user.password = body.password;
-    user.email = body.email;
-    user.apodo = body.apodo;
-    user.imagen = body.imagen;
 
     //validaciones
 
     //let _db = new DBConexion();
     let sql = `INSERT INTO ${table} (password, email, apodo, imagen) 
-      VALUES('${user.password}', '${user.email}', '${user.apodo}', '${user.imagen}');`;
-    
+      VALUES('${body.password}', '${body.email}', '${body.apodo}', '${body.imagen}');`;
     _db.query(sql).then(
       data => {
         if (data) 
@@ -72,10 +65,9 @@ let table = 'Usuarios';
 
     //let users = [];
     let sql = `SELECT * FROM ${table};`;
-    
+
     _db.query(sql).then(
       datas => {
-        console.log(datas)
         resolve(datas);
       },
       error => {
@@ -96,10 +88,7 @@ let table = 'Usuarios';
  exports.getUserById = function(id) {
   return new Promise(function(resolve, reject) {
     
-    let user = new User();
-    user.id = id;
-
-    let sql = `SELECT * FROM ${table} WHERE idUsuario=${user.id};`;
+    let sql = `SELECT * FROM ${table} WHERE idUsuario=${id};`;
 
     _db.query(sql).then(
       data => {
@@ -123,19 +112,12 @@ let table = 'Usuarios';
  **/
  exports.updateUser = function(id,body) {
   return new Promise(function(resolve, reject) {
-    
-    let user = new User();
-    user.id = id;
-    user.password = body.password;
-    user.email = body.email;
-    user.apodo = body.apodo;
-    user.imagen = body.imagen;
 
     //validaciones
 
     let sql = `UPDATE ${table} 
-      SET password=${user.password}, email='${user.email}', apodo='${user.apodo}', imagen='${user.imagen}' 
-      WHERE idUsuario=${user.id};`;
+      SET password='${body.password}', email='${body.email}', apodo='${body.apodo}', imagen='${body.imagen}' 
+      WHERE idUsuario=${id};`;
     
     _db.query(sql).then(
       data => {        

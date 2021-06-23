@@ -12,23 +12,11 @@ let table = 'Juegos';
  **/
  exports.createGame = function(body) {
   return new Promise(function(resolve, reject) {
-    
-    let game = new Game();
-    game.nombre = body.nombre;
-    game.imagen = body.imagen;
-    game.fechaSalida = body.fechaSalida;
-    game.sinopsis = body.sinopsis;
-    game.desarrolladora = body.desarrolladora;
-    game.distribuidora = body.distribuidora;
-    game.video = body.video;
-    game.enlaceCompra = body.enlaceCompra;
-
     //validaciones
-
 
     //let _db = new DBConexion();
     let sql = `INSERT INTO ${table} (nombre, imagen, fechaSalida, sinopsis, desarrolladora, distribuidora, video, enlaceCompra) 
-      VALUES(${game.nombre}, ${game.imagen}, ${game.fechaSalida}, '${game.sinopsis}', '${game.desarrolladora}', '${game.distribuidora}', '${game.video}', ${game.enlaceCompra});`;
+      VALUES('${body.nombre}', '${body.imagen}', '${body.fechaSalida}', '${body.sinopsis}', '${body.desarrolladora}', '${body.distribuidora}', '${body.video}', '${body.enlaceCompra}');`;
     
     _db.query(sql).then(
       data => {
@@ -49,7 +37,7 @@ let table = 'Juegos';
  * id Integer The id of the game that needs to be deleted
  * no response value expected for this operation
  **/
- exports.deleteUser = function(id) {
+ exports.deleteGame = function(id) {
   return new Promise(function(resolve, reject) {
 
     let sql = `DELETE FROM ${table} WHERE idJuego=${id};`;
@@ -99,11 +87,8 @@ let table = 'Juegos';
  **/
  exports.getGameById = function(id) {
   return new Promise(function(resolve, reject) {
-    
-    let game = new Game();
-    game.id = id;
 
-    let sql = `SELECT * FROM ${table} WHERE idJuego=${game.id};`;
+    let sql = `SELECT * FROM ${table} WHERE idJuego=${id};`;
 
     _db.query(sql).then(
       data => {
@@ -127,23 +112,11 @@ let table = 'Juegos';
  **/
  exports.updateGame = function(id,body) {
   return new Promise(function(resolve, reject) {
-    
-    let game = new Game();
-    game.id = id;
-    game.nombre = body.nombre;
-    game.imagen = body.imagen;
-    game.fechaSalida = body.fechaSalida;
-    game.sinopsis = body.sinopsis;
-    game.desarrolladora = body.desarrolladora;
-    game.distribuidora = body.distribuidora;
-    game.video = body.video;
-    game.enlaceCompra = body.enlaceCompra;
-
     //validaciones
 
     let sql = `UPDATE ${table} 
-      SET nombre=${game.nombre}, imagen='${game.imagen}', fechaSalida='${game.fechaSalida}', sinopsis='${game.sinopsis}', desarrolladora='${game.desarrolladora}', distribuidora=${game.distribuidora}, video='${game.video}', enlaceCompra=${game.enlaceCompra} 
-      WHERE id=${game.id};`;
+      SET nombre='${body.nombre}', imagen='${body.imagen}', fechaSalida='${body.fechaSalida}', sinopsis='${body.sinopsis}', desarrolladora='${body.desarrolladora}', distribuidora='${body.distribuidora}', video='${body.video}', enlaceCompra='${body.enlaceCompra}' 
+      WHERE idJuego=${id};`;
     
     _db.query(sql).then(
       data => {        

@@ -12,22 +12,17 @@ let table = 'Plataformas';
  **/
  exports.createPlatform = function(body) {
   return new Promise(function(resolve, reject) {
-    
-    let platform = new Platform();
-    platform.id = platform.idPlataforma;
-
-
     //validaciones
 
 
     //let _db = new DBConexion();
     let sql = `INSERT INTO ${table} (idPlataforma) 
-      VALUES(${platform.id})`;
+      VALUES('${body.idPlataforma}')`;
     
     _db.query(sql).then(
       data => {
         if (data) 
-          resolve({message: 'Genero insertado con exito', status: 201});
+          resolve({message: 'Plataforma insertado con exito', status: 201});
       },
       err => {
         resolve({message: 'Error al insertar platforma', status: 400});
@@ -46,7 +41,7 @@ let table = 'Plataformas';
  exports.deletePlatform = function(id) {
   return new Promise(function(resolve, reject) {
 
-    let sql = `DELETE FROM ${table} WHERE idPlataforma=${id};`;
+    let sql = `DELETE FROM ${table} WHERE idPlataforma='${id}';`;
 
     _db.query(sql).then(
       data => {
@@ -94,16 +89,11 @@ let table = 'Plataformas';
  **/
  exports.updatePlatform = function(id,body) {
   return new Promise(function(resolve, reject) {
-    
-    let platform = new Platform();
-    platform.id = id;
-    platform.newId = body.idPlataforma;
-
     //validaciones
 
     let sql = `UPDATE ${table} 
-      SET employeeNumber=${platform.newId} 
-      WHERE id=${platform.id};`;
+      SET idPlataforma='${body.idPlataforma}' 
+      WHERE idPlataforma='${id}';`;
     
     _db.query(sql).then(
       data => {        

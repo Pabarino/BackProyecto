@@ -12,17 +12,12 @@ let table = 'Generos';
  **/
 exports.createGenre = function(body) {
   return new Promise(function(resolve, reject) {
-    
-    let genre = new Genre();
-    genre.id = body.idGenero;
-
-
     //validaciones
 
 
     //let _db = new DBConexion();
     let sql = `INSERT INTO ${table} (idGenero) 
-      VALUES(${genre.id})`;
+      VALUES('${body.idGenero}')`;
     
     _db.query(sql).then(
       data => {
@@ -46,14 +41,14 @@ exports.createGenre = function(body) {
  exports.deleteGenre = function(id) {
   return new Promise(function(resolve, reject) {
 
-    let sql = `DELETE FROM ${table} WHERE idGenero=${id};`;
+    let sql = `DELETE FROM ${table} WHERE idGenero='${id}';`;
 
     _db.query(sql).then(
       data => {
         resolve(data);
       },
       error => {
-        resolve({message: 'Error al borrar genre', status: 404});
+        resolve({message: 'Error al borrar genero', status: 404});
       }
     );    
     
@@ -66,7 +61,7 @@ exports.createGenre = function(body) {
  *
  * returns List
  **/
- exports.getAllUsers = function() {
+ exports.getAllGenres = function() {
   return new Promise(function(resolve, reject) {
 
     //let users = [];
@@ -94,16 +89,11 @@ exports.createGenre = function(body) {
  **/
  exports.updateGenre = function(id,body) {
   return new Promise(function(resolve, reject) {
-    
-    let genre = new Genre();
-    genre.id = id;
-    genre.newId = body.idGenero;
-
     //validaciones
 
     let sql = `UPDATE ${table} 
-      SET employeeNumber=${genre.newId} 
-      WHERE id=${genre.id};`;
+      SET idGenero='${body.idGenero}' 
+      WHERE idGenero='${id}';`;
     
     _db.query(sql).then(
       data => {        

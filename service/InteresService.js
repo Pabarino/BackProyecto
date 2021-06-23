@@ -7,22 +7,16 @@ let table = 'Interes';
  * Create Interest
  * 
  *
- * body Interest Created interes object
+ * body Interest Created interest object
  * no response value expected for this operation
  **/
 exports.createInterest = function(body) {
   return new Promise(function(resolve, reject) {
-    
-    let interest = new Interest();
-    interest.idJuego = body.idJuego;
-    interest.idUsuario = body.idUsuario;
-
     //validaciones
-
 
     //let _db = new DBConexion();
     let sql = `INSERT INTO ${table} (idJuego, idUsuario) 
-      VALUES(${interest.idJuego}, '${interest.idUsuario}');`;
+      VALUES(${body.idJuego}, '${body.idUsuario}');`;
     
     _db.query(sql).then(
       data => {
@@ -44,7 +38,7 @@ exports.createInterest = function(body) {
  * iUsuario Integer The id of the interest that needs to be deleted
  * no response value expected for this operation
  **/
- exports.deleteInterest = function(idJuego, idUsuario) {
+ exports.deleteInterest = function(idUsuario, idJuego) {
   return new Promise(function(resolve, reject) {
 
     let sql = `DELETE FROM ${table} WHERE idUsuario=${idUsuario} AND idJuego=${idJuego};`;
@@ -74,7 +68,7 @@ exports.getAllInterestById = function(id) {
     let sql = `SELECT idJuego FROM ${table} WHERE idUsuario=${id};`;
 
     _db.query(sql).then(
-      data => {
+      datas => {
         resolve(datas);
       },
       error => {
@@ -109,39 +103,4 @@ exports.getAllInterestById = function(id) {
   });
 }
 
-/**
- * Update interests
- * 
- *
- * idJuego Integer The id of the interest that needs to be deleted
- * iUsuario Integer The id of the interest that needs to be deleted
- * body In Updated interests object
- * no response value expected for this operation
- **/
- exports.updateInterests = function(idJuego, idUsuario,body) {
-  return new Promise(function(resolve, reject) {
-    
-    let interest = new Interest();
-    interest.idJuego = idJuego;
-    interest.newIdJuego = body.idJuego;
-    interest.idUsuario = idUsuario;
-    interest.newIdUsuario = body.idUsuario;
-
-    //validaciones
-
-    let sql = `UPDATE ${table} 
-      SET idUsuario=${interest.newIdUsuario}, idJuego='${interest.newIdJuego}'
-      WHERE idUsuario=${interest.idUsuario} AND idJuego=${interest.idJuego} ;`;
-    
-    _db.query(sql).then(
-      data => {        
-        resolve({message: 'Interes actualizado con exito', status: 200});
-      },
-      err => {
-        resolve({message: 'Error al actualizar interes', status: 400});
-      }
-    );
-
-  });
-}
 
