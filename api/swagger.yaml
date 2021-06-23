@@ -4,7 +4,7 @@ info:
   description: "API de proyecto final Desarrollo de Aplicaciones Web."
   version: "1.0.0"
   title: "Next Up Games API"
-host: "git.heroku.com/next-up-games-back.git"
+host: "next-up-games-back.herokuapp.com"
 basePath: "/api"
 tags:
 - name: "usuario"
