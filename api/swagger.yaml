@@ -4,7 +4,7 @@ info:
   description: "API de proyecto final Desarrollo de Aplicaciones Web."
   version: "1.0.0"
   title: "Next Up Games API"
-host: "next-up-games-db.cplzfkknujtl.eu-west-3.rds.amazonaws.com"
+host: "localhost:8080"
 basePath: "/api"
 tags:
 - name: "usuario"

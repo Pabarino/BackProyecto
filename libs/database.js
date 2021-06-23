@@ -5,22 +5,35 @@ class Database {
 
     const mysql = require('mysql');
 
-    var connection = mysql.createConnection({
+    this.connection = mysql.createConnection({
       host: "next-up-games-db.cplzfkknujtl.eu-west-3.rds.amazonaws.com",
       user: "admin",
       password: "admin123",
-      port: "3306"
+      port: "3306",
+      database: "NextUpGames"
     });
     
-    connection.connect(function(err) {
-      if (err) {
+    // connection.connect(function(err) {
+    //   if (err) {
+    //     console.error('Database connection failed: ' + err.stack);
+    //     return;
+    //   }
+    //   console.log('Connected to database');
+    // });
+    // connection.end();
+
+    this.connection.connect(function(err) {
+      if (err)  {
         console.error('Database connection failed: ' + err.stack);
         return;
       }
       console.log('Connected to database');
+      //Select all customers and return the result object:
+      // connection.query("SELECT * FROM Usuarios", function (err, datas, fields) {
+      //   if (err) throw err;
+      //   console.log(datas);
+      // });
     });
-    connection.end();
-    
   }
 
   /**
@@ -31,18 +44,14 @@ class Database {
    */
    query(query) {
     return new Promise((resolve, reject) => {
-      this.mysql.createConnection(this.connStr, (err, conn) => {
+      
+      this.connection.query(query, (err, data) => {
         if (err) {
           reject(err);
         }
-        conn.query(query, (err, data) => {
-          if (err) {
-            reject(err);
-          }
-          if (data) {
-            resolve(data);
-          }
-        });
+        if (data) {
+          resolve(data);
+        }
       });
     });
   }

@@ -72,11 +72,10 @@ let table = 'Usuarios';
 
     //let users = [];
     let sql = `SELECT * FROM ${table};`;
-
-    console.log('mIn');
-
+    
     _db.query(sql).then(
       datas => {
+        console.log(datas)
         resolve(datas);
       },
       error => {

@@ -44,7 +44,7 @@ let table = 'Juegos_plataformas';
  * idPlataforma Integer The id of the games_platforms that needs to be deleted
  * no response value expected for this operation
  **/
- exports.deleteGame_platform = function(idJuego, idPlataforma) {
+ exports.deleteGame_Platform = function(idJuego, idPlataforma) {
   return new Promise(function(resolve, reject) {
 
     let sql = `DELETE FROM ${table} WHERE idPlataforma=${idPlataforma} AND idJuego=${idJuego};`;
